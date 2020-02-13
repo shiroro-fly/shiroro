@@ -1,16 +1,19 @@
 <template>
-    <h1>First</h1>
+    <div class="header">
+      head
+    </div>
 </template>
 
 <script>
     export default {
-        name: "FirstPage",
+      name: "app-header",
       data () {
         return {
         }
       },
-      created:function () {
-        this.$emit('footer', false);
+      methods: {
+      },
+      created() {
       }
     }
 </script>
