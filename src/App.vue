@@ -33,5 +33,7 @@ export default {
 </script>
 
 <style>
-
+.app {
+  background-image: url('~@/img/bg.jpg') center center no-repeat;
+}
 </style>

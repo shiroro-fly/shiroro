@@ -5,15 +5,16 @@ import Home from '@/components/Home'
 import FirstPage from '@/components/FirstPage'
 import SecondPage from '@/components/SecondPage'
 import Test from '@/components/test'
+import Login from '@/views/Login'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/Home',
@@ -34,6 +35,11 @@ export default new Router({
       path: '/test',
       name: 'Test',
       component: Test
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
