@@ -1,5 +1,5 @@
 <template>
-  <div class="loginarea">
+  <div class="loginarea" :style="'height:'+fullHeight+'px;'">
     <div class="login">
     </div>
     <div class="login">
@@ -14,8 +14,10 @@
           </el-form-item>
           <el-form-item label="身份选择" prop="identify">
             <el-select v-model="ruleForm.identify" placeholder="请选择身份">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option label="网格管理员" value="manager"></el-option>
+              <el-option label="网格受理人员" value="register"></el-option>
+              <el-option label="部门员工" value="member"></el-option>
+              <el-option label="网格中心审核员" value="judge"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -56,8 +58,21 @@
         message: '请选择身份',
         trigger: 'change'
       }]
-    }
+    },
+    fullHeight: document.documentElement.clientHeight
   };
+  },
+  watch: {
+    fullHeight (val) {//监控浏览器高度变化
+  		if(!this.timer) {
+  			this.fullHeight = val
+  			this.timer = true
+  			let that = this
+  			setTimeout(function (){
+  				that.timer = false
+  			},400)
+      }
+    }
   },
   methods: {
     submitForm(formName) {
