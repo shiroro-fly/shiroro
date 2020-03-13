@@ -14,10 +14,9 @@
           </el-form-item>
           <el-form-item label="身份选择" prop="identify">
             <el-select v-model="ruleForm.identify" placeholder="请选择身份">
-              <el-option label="网格管理员" value="manager"></el-option>
-              <el-option label="网格受理人员" value="register"></el-option>
-              <el-option label="部门员工" value="member"></el-option>
-              <el-option label="网格中心审核员" value="judge"></el-option>
+              <el-option label="网格管理员" value="CityGridManager"></el-option>
+              <el-option label="网格审核人" value="CityAdmissibility"></el-option>
+              <el-option label="部门员工" value="CityGridSection"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -41,6 +40,13 @@
       account: '',
       password: '',
       identify: ''
+    },
+    managerInfo: {
+      name: '',
+      no: '',
+      pwd: '',
+      area: '',
+      phone: ''
     },
     rules: {
       account: [{
@@ -78,7 +84,7 @@
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert(this.ruleForm.account+this.ruleForm.password+this.ruleForm.identify);
+          this.loginCheck()
         } else {
           console.log('error submit!!');
           return false;
@@ -87,6 +93,20 @@
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    loginCheck: function () {
+      this.$axios.get("http://localhost:8080/mServer/LoginCheck?"+this.ruleForm.account+"&"+this.ruleForm.password+"&"+this.ruleForm.identify)
+      .then(res => {
+        if(res.data.code === 'ok'){
+          if(this.ruleForm.identify ==='CityGridManager'){
+            this.managerInfo = res.data.items
+            console.log(this.managerInfo+"aa"+this.managerInfo[0].name)
+            this.$router.push({path:'/EventList',query:{no: this.managerInfo[0].no, name: this.managerInfo[0].name, phone: this.managerInfo[0].phone,
+            area: this.managerInfo[0].area}})
+          }
+        }
+        console.log(res.data)
+      })
     }
   }
   }

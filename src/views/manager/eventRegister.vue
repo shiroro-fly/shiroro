@@ -30,18 +30,18 @@
       </el-form-item>
       <el-form-item label="事件性质" prop="type">
         <el-checkbox-group v-model="form.type">
-          <el-checkbox label="环境问题" name="type"></el-checkbox>
-          <el-checkbox label="纠纷问题" name="type"></el-checkbox>
-          <el-checkbox label="卫生问题" name="type"></el-checkbox>
-          <el-checkbox label="维护问题" name="type"></el-checkbox>
+          <el-checkbox label="环境问题" name="type" value="01"></el-checkbox>
+          <el-checkbox label="纠纷问题" name="type" value="02"></el-checkbox>
+          <el-checkbox label="卫生问题" name="type" value="03"></el-checkbox>
+          <el-checkbox label="维护问题" name="type" value="04"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="联系人" prop="contact">
         <el-col :span="6">
           <el-input v-model="form.contact" placeholder="联系人姓名"></el-input>
         </el-col>
-       </el-form-item>
-       <el-form-item label="联系方式" prop="phone">
+      </el-form-item>
+      <el-form-item label="联系方式" prop="phone">
         <el-col :span="6">
           <el-input v-model="form.phone" placeholder="联系方式"></el-input>
         </el-col>
@@ -57,6 +57,8 @@
   </div>
 </template>
 <script>
+  import qs from 'qs'
+  import axios from 'axios'
   export default {
     name: "EventRegister",
     data() {
@@ -73,41 +75,81 @@
           contact: ''
         },
         rules: {
-          name: [
-            { required: true, message: '请输入事件名称', trigger: 'blur' },
-            { min: 3, max: 300, message: '至少三个字符', trigger: 'blur' }
+          name: [{
+              required: true,
+              message: '请输入事件名称',
+              trigger: 'blur'
+            },
+            {
+              min: 3,
+              max: 300,
+              message: '至少三个字符',
+              trigger: 'blur'
+            }
           ],
-          region: [
-            { required: true, message: '请选择事件区域', trigger: 'change' }
+          region: [{
+            required: true,
+            message: '请选择事件区域',
+            trigger: 'change'
+          }],
+          date1: [{
+            type: 'date',
+            required: true,
+            message: '请选择日期',
+            trigger: 'change'
+          }],
+          date2: [{
+            type: 'date',
+            required: true,
+            message: '请选择时间',
+            trigger: 'change'
+          }],
+          type: [{
+            type: 'array',
+            required: true,
+            message: '请至少选择一个事件性质',
+            trigger: 'change'
+          }],
+          contact: [{
+              required: true,
+              message: '请输入联系人',
+              trigger: 'blur'
+            },
+            {
+              min: 2,
+              max: 10,
+              message: '至少二个字符',
+              trigger: 'blur'
+            }
           ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个事件性质', trigger: 'change' }
-          ],
-          contact: [
-            { required: true, message: '请输入联系人', trigger: 'blur' },
-            {min:2, max:10, message: '至少二个字符', trigger: 'blur'}
-          ],
-          phone: [
-            {required: true, message: '请输入联系方式', trigger: 'blur'}
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
+          phone: [{
+            required: true,
+            message: '请输入联系方式',
+            trigger: 'blur'
+          }],
+          desc: [{
+            required: true,
+            message: '请填写活动形式',
+            trigger: 'blur'
+          }]
         }
       }
     },
     methods: {
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
-          if(valid) {
-            alert(this.form.name);
-            console.log(this.form)
+          if (valid) {
+            console.log(this.form);
+            // var data = this.form
+            // this.$axios.get(('RegisterEvent'),data).then(res => {
+            //   alert('这边');
+            // })
+            this.$axios.get('http://localhost:8080/mServer/RegisterEvent?'+ this.form.name+"&"+this.form.region+"&"+
+            this.form.date1+"&"+this.form.date2+"&"+this.form.adjust+"&"+this.form.contact+"&"+this.form.phone+
+            "&"+this.form.desc).then(function(
+              response) {
+              console.log(response.data);
+            })
           } else {
             alert('有Bug');
             return false;

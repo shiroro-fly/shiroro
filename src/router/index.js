@@ -10,6 +10,9 @@ import ManagerHome from '@/views/manager/manage_home'
 import EventRegister from '@/views/manager/eventRegister'
 import EventList from '@/views/manager/eventList'
 import DisposeEvent from '@/views/manager/disposeEvent'
+import OfficialEventAllot from '@/views/manager/officialEventAllot'
+import MessageEdit from '@/views/manager/MessageEdit'
+import MessageList from '@/views/manager/MessageList'
 
 Vue.use(Router)
 
@@ -64,6 +67,21 @@ export default new Router({
       path: '/DisposeEvent',
       name: 'DisposeEvent',
       component: DisposeEvent
+    },
+    {
+      path: '/OfficialEventAllot',
+      name: 'OfficialEventAllot',
+      component: OfficialEventAllot
+    },
+    {
+      path: '/MessageEdit',
+      name: 'MessageEdit',
+      component: MessageEdit
+    },
+    {
+      path: '/MessageList',
+      name: 'MessageList',
+      component: MessageList
     }
   ]
 })
